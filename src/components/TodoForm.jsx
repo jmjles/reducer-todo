@@ -1,23 +1,37 @@
-import React,{useRef,useContext} from 'react'
-import { Input } from '@material-ui/core'
+import React,{useContext,useState} from 'react'
+import { Input,Button } from '@material-ui/core'
 import ContextList from '../context/ContextList'
 
 function TodoForm() {
+    const [todoValue,setTodoValue] = useState('')
     const {Dispatch} = useContext(ContextList)
-    const input = useRef()
 
     const handleSubmit= (e)=>{
         e.preventDefault()
         Dispatch({
             type:'newTodo',
-            data: input.current.value
+            data: todoValue
         })
-        input.current.value = ''
+        setTodoValue('')
+    }
+    const clearCompletedTodos = () => {
+        Dispatch({
+            type:'clearCompletedTodos'
+        }
+        )
+    }
+    const handleChange = (e)=> {
+        setTodoValue(e.target.value)
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <input ref={input} type='text' placeholder='Enter a Todo' required/>
-        </form>
+        <>
+            <form onSubmit={handleSubmit}>
+                <Input type='text' placeholder='Enter a Todo' required value={todoValue} onChange={handleChange}/>
+            </form>
+            <Button onClick={clearCompletedTodos} color='primary' variant='contained'>
+                Clear Completed Todos
+            </Button>
+        </>
     )
 }
 

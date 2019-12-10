@@ -8,7 +8,7 @@ function TodoList() {
         <Grid container>
             {
                 list.map(item=>(
-                    <TodoItem key={item.id}item={item}/>
+                    <TodoItem key={item.id} item={item}/>
                 ))
             }
            
